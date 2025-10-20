@@ -19,6 +19,10 @@ from openpyxl.cell.cell import MergedCell
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="NOSACQ-50 API", version="1.0")
+@app.get("/")
+def home():
+    return {"message": "API funcionando correctamente 🚀"}
+
 
 # --- Secciones de preguntas ---
 sections = {
