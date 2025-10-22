@@ -21,7 +21,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="NOSACQ-50 API", version="1.0")
 @app.get("/")
 def home():
-    return {"message": "API funcionando correctamente 🚀"}
+    return {"message": "API de NOSACQ-50 corriendo"}
 
 
 # --- Secciones de preguntas ---
@@ -73,7 +73,7 @@ def submit_responses(data: ResponseInput):
         db.add(new_response)
 
     db.commit()
-    return {"message": "✅ Respuestas guardadas correctamente", "player": data.player_id}
+    return {"message": "Respuestas guardadas correctamente", "player": data.player_id}
 
 # --- Endpoint para ver los resultados ---
 @app.get("/results")
