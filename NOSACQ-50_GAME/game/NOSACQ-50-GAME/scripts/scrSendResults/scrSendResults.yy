@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scrSendResults",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scrSendResults",
+  "parent":{
+    "name":"Backend",
+    "path":"folders/Scripts/Backend.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

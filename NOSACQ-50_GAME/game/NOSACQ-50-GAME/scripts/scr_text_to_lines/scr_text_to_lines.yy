@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_text_to_lines",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_text_to_lines",
+  "parent":{
+    "name":"Configuration",
+    "path":"folders/Scripts/Configuration.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

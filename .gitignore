@@ -1,0 +1,10 @@
+*.exe
+*.zip
+*.log
+*.tmp
+*.bak
+*.yyz
+build/
+cache/
+*.local/
+*.temp/
