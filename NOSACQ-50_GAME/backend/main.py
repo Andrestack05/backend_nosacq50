@@ -1,5 +1,5 @@
 # main.py
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine
@@ -13,6 +13,9 @@ import os
 import pandas as pd
 from openpyxl.styles import Alignment
 from openpyxl.cell.cell import MergedCell
+from fastapi import Request
+from fastapi.templating import Jinja2Templates
+import plotly.express as px
 
 
 # Crear las tablas si no existen
@@ -284,3 +287,63 @@ async def export_excel():
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
+# DASHBOARD CON PLOTLY
+
+templates = Jinja2Templates(directory="templates")
+
+@app.get("/dashboard")
+def dashboard(request: Request, player: str = Query(None)):
+    conn = sqlite3.connect("responses.db")
+    df = pd.read_sql_query("SELECT player_id, section, value FROM responses", conn)
+    conn.close()
+
+    if df.empty:
+        return templates.TemplateResponse("dashboard.html", {
+            "request": request,
+            "chart_html": "<p style='color:white;text-align:center;'>No hay datos disponibles aún.</p>",
+            "players": [],
+            "selected_player": None
+        })
+
+    # 🔹 Procesar los IDs de jugador para mostrar solo el número
+    df["display_id"] = df["player_id"].apply(lambda x: x.split("_")[-1] if "_" in x else x)
+
+    # 🔹 Lista de jugadores (solo los números)
+    players = sorted(df["display_id"].unique().tolist())
+
+    # 🔹 Si se selecciona un jugador (por número), filtrar el dataframe original
+    if player:
+        df = df[df["display_id"] == player]
+        title = f"Promedio de Puntuación por Sección - Jugador {player}"
+    else:
+        title = "Promedio de Puntuación por Sección (General)"
+
+    # Calcular promedio por sección
+    section_avg = df.groupby("section")["value"].mean().reset_index()
+
+    # Crear gráfico
+    fig = px.bar(
+        section_avg,
+        x="section",
+        y="value",
+        title=title,
+        labels={"section": "Sección", "value": "Promedio"},
+        color="section",
+        color_discrete_sequence=px.colors.qualitative.Vivid
+    )
+
+    fig.update_layout(
+        paper_bgcolor="#1e1e2f",
+        plot_bgcolor="#2c2c3e",
+        font_color="#FFFFFF",
+        title_font_size=20
+    )
+
+    chart_html = fig.to_html(full_html=False, include_plotlyjs='cdn')
+
+    return templates.TemplateResponse("dashboard.html", {
+        "request": request,
+        "chart_html": chart_html,
+        "players": players,
+        "selected_player": player
+    })

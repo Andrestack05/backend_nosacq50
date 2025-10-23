@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard NOSACQ-50</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e2f;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .chart-container {
+            width: 90%;
+            margin: 0 auto;
+            background: #2c2c3e;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        .controls {
+            margin-bottom: 20px;
+        }
+        select {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: none;
+            background: #3a3a50;
+            color: white;
+            font-size: 14px;
+        }
+        select:hover {
+            background: #4a4a6a;
+        }
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>📊 Dashboard de Resultados NOSACQ-50</h1>
+
+    <div class="controls">
+        <form method="get" action="/dashboard">
+            <label for="player">Seleccionar jugador:</label>
+            <select name="player" id="player" onchange="this.form.submit()">
+                <option value="">Todos (general)</option>
+                {% for p in players %}
+                    <option value="{{ p }}" {% if selected_player == p %}selected{% endif %}>{{ p }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <div class="chart-container">
+        {{ chart_html | safe }}
+    </div>
+
+    <p style="margin-top:20px;">
+        <a href="/results_table">Ver tabla completa de resultados</a>
+    </p>
+</body>
+</html>
