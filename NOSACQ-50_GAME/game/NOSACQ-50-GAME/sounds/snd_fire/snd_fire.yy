@@ -9,7 +9,7 @@
   "bitRate":128,
   "compression":0,
   "conversionMode":0,
-  "duration":4.0,
+  "duration":4.001746,
   "name":"snd_fire",
   "parent":{
     "name":"Effects",

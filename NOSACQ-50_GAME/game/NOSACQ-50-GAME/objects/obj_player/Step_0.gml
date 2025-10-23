@@ -7,7 +7,7 @@ if(can_move){
 		scrMovement(sign(hor), width);
 		action = "Walk";
 		if (vspeed == 0 && !audio_is_playing(snd_run)) {
-        audio_play_sound(snd_run, 5, true); // bucle mientras camina
+        audio_play_sound(snd_run, 5, true);
     }
 		
 	} else if (vspeed == 0) {
