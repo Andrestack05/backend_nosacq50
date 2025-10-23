@@ -1,6 +1,4 @@
-/// scrSendResults()
 
-// Asegurarse de que exista el array
 if (!variable_global_exists("answers")) {
     show_debug_message("⚠️ El array de respuestas no existe.");
     exit;
@@ -10,7 +8,7 @@ if (!variable_global_exists("answers")) {
 var playerTag = "Jugador_" + string(global.player_id);
 
 
-// Construir el JSON manualmente
+// Construir el JSON 
 var json_payload = "{\"player_id\":\"" + playerTag + "\",\"responses\":[";
 
 for (var i = 0; i < array_length(global.answers); i++) {
